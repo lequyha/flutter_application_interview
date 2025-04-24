@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_interview/src/screens/state_manager_example.dart';
+import 'package:flutter_application_interview/src/screens/state_manager_list_example.dart';
 import 'package:flutter_package_interview/flutter_package_interview.dart';
 
 void main() {
@@ -56,6 +57,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
               child: Text('Ví dụ dạng biến bình thường'),
+            ),
+            TextButton(
+              onPressed:
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => const StateManagerListExample(
+                            title: 'Ví dụ dạng list',
+                          ),
+                    ),
+                  ),
+              child: Text('Ví dụ dạng list'),
             ),
           ],
         ),
