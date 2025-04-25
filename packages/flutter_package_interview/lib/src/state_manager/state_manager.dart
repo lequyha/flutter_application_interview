@@ -13,6 +13,12 @@ class StateManager<T> {
     _notifyListeners();
   }
 
+  Future<void> setAsync(Future<T> Function() asyncFn) async {
+    final result = await asyncFn();
+    _value = result;
+    _notifyListeners();
+  }
+
   void addListener(StateListener<T> listener) {
     _listeners.add(listener);
   }
@@ -25,5 +31,9 @@ class StateManager<T> {
     for (final listener in List<StateListener<T>>.from(_listeners)) {
       listener(_value);
     }
+  }
+
+  void dispose() {
+    _listeners.clear();
   }
 }

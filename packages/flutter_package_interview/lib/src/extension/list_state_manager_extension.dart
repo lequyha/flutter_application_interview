@@ -11,6 +11,15 @@ extension ListStateManagerExtension<T> on StateManager<List<T>> {
     setState(newList);
   }
 
+  void updateItem(bool Function(T item) test, T newItem) {
+    final newList = List<T>.from(value);
+    final index = newList.indexWhere(test);
+    if (index != -1) {
+      newList[index] = newItem;
+      setState(newList);
+    }
+  }
+
   void clear() {
     setState([]);
   }
