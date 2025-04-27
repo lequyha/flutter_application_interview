@@ -89,7 +89,7 @@ packages:
   flutter_package_interview:
     dependency: "direct main"
     description:
-      path: "packages/flutter_package_interview"
+      path: "../flutter_package_interview"
       relative: true
     source: path
     version: "0.0.1"
