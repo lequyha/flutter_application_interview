@@ -81,14 +81,14 @@ class _UsersScreenState extends State<UsersScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            StateListener<bool>(
+            StateBuilder<bool>(
               stateManager: loadingState,
               builder: (context, isLoading) {
                 if (!isLoading) return SizedBox.shrink();
                 return Center(child: CircularProgressIndicator());
               },
             ),
-            StateListener<List<UserModel>>(
+            StateBuilder<List<UserModel>>(
               stateManager: usersState,
               builder:
                   (context, list) =>

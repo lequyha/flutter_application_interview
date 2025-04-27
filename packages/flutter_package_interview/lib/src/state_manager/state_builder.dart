@@ -1,21 +1,23 @@
 import 'package:flutter/widgets.dart';
 import 'state_manager.dart';
 
-class StateListener<T> extends StatefulWidget {
+class StateBuilder<T> extends StatefulWidget {
   final StateManager<T> stateManager;
   final Widget Function(BuildContext context, T value) builder;
+  final bool Function(T previous, T current)? buildWhen;
 
-  const StateListener({
+  const StateBuilder({
     super.key,
     required this.stateManager,
     required this.builder,
+    this.buildWhen,
   });
 
   @override
-  State<StateListener<T>> createState() => _StateListenerState<T>();
+  State<StateBuilder<T>> createState() => _StateBuilderState<T>();
 }
 
-class _StateListenerState<T> extends State<StateListener<T>> {
+class _StateBuilderState<T> extends State<StateBuilder<T>> {
   late T _currentValue;
 
   @override
@@ -26,9 +28,16 @@ class _StateListenerState<T> extends State<StateListener<T>> {
   }
 
   void _onValueChanged(T newValue) {
-    setState(() {
-      _currentValue = newValue;
-    });
+    final shouldRebuild =
+        widget.buildWhen?.call(_currentValue, newValue) ?? true;
+
+    if (shouldRebuild) {
+      setState(() {
+        _currentValue = newValue;
+      });
+    } else {
+      _currentValue = newValue; // Cập nhật giá trị, nhưng không rebuild UI
+    }
   }
 
   @override
