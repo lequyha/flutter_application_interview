@@ -4,13 +4,12 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Yêu cầu cần có: - Flutter 3.29.2
 
-A few resources to get you started if this is your first Flutter project:
+Giải thích nội dung:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+StateManager để quản lý state lưu các biến linh hoạt với T
+StateListener để lắng nghe khi state thay đổi để rebuild
+Có folder extension để quản lý các hàm thêm xoá sửa cho các dạng mảng, map, nested
+Folder api để quản các phương thức thêm xoá sửa đồng nhất để gọi api
+trong folder api_service có thể phát triển để theo dõi response và lỗi trả về
