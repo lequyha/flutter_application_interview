@@ -75,61 +75,76 @@ class _UsersScreenState extends State<UsersScreen> {
     super.dispose();
   }
 
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  void hideLoadingDialog(BuildContext context) {
+    if (Navigator.of(context, rootNavigator: true).canPop()) {
+      Navigator.of(context, rootNavigator: true).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            StateBuilder<bool>(
-              stateManager: loadingState,
-              builder: (context, isLoading) {
-                if (!isLoading) return SizedBox.shrink();
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
-            StateBuilder<List<UserModel>>(
-              stateManager: usersState,
-              builder:
-                  (context, list) =>
-                      list.isEmpty
-                          ? Center(
-                            child: Text('Chưa có người dùng nào vui lòng tạo'),
-                          )
-                          : ListView.builder(
-                            itemCount: list.length,
-                            itemBuilder: (context, index) {
-                              final user = list[index];
-                              return ListTile(
-                                key: ValueKey(user.id),
-                                title: Text(user.name),
-                                subtitle: Text(user.createdAt),
-                                leading: Image.network(user.avatar),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed:
-                                          () => _openUserForm(user: user),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () => _deleteUser(user),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-            ),
-          ],
+    return StateListener<bool>(
+      stateManager: loadingState,
+      listener: (context, isLoading) {
+        if (isLoading) {
+          showLoadingDialog(context);
+        } else {
+          hideLoadingDialog(context);
+        }
+      },
+      listenWhen: (previous, current) => current != previous,
+      child: Scaffold(
+        body: SafeArea(
+          child: StateBuilder<List<UserModel>>(
+            stateManager: usersState,
+            builder:
+                (context, list) =>
+                    list.isEmpty
+                        ? Center(
+                          child: Text('Chưa có người dùng nào vui lòng tạo'),
+                        )
+                        : ListView.builder(
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            final user = list[index];
+                            return ListTile(
+                              key: ValueKey(user.id),
+                              title: Text(user.name),
+                              subtitle: Text(user.createdAt),
+                              leading: Image.network(user.avatar),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () => _openUserForm(user: user),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () => _deleteUser(user),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openUserForm(),
-        tooltip: 'Thêm',
-        child: const Icon(Icons.add),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _openUserForm(),
+          tooltip: 'Thêm',
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

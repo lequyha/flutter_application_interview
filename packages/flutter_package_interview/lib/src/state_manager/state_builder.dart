@@ -36,7 +36,7 @@ class _StateBuilderState<T> extends State<StateBuilder<T>> {
         _currentValue = newValue;
       });
     } else {
-      _currentValue = newValue; // Cập nhật giá trị, nhưng không rebuild UI
+      _currentValue = newValue;
     }
   }
 
