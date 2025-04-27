@@ -1,5 +1,5 @@
+import 'package:flutter_application_interview/src/api/api_service.dart';
 import 'package:flutter_application_interview/src/models/user_model.dart';
-import 'package:flutter_package_interview/flutter_package_interview.dart';
 
 class UserRepository {
   final _api = ApiService();
